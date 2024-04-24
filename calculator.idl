@@ -1,0 +1,54 @@
+module calculator_module{
+  interface Calculator{
+     long add(in long a,in long b);
+     long subtract(in long a,in long b);
+     long multiply(in long a,in long b);
+     long divide(in long a,in long b);
+     oneway void shutdown();
+  };
+};
+
+to compile above file :  idlj -fall calculator.idl
+after this one folder will be created : calculator_module
+create two more folders:
+   client--->CalculatorClient.java
+   server--->CalculatorImpl.java and CalculatorServer.java
+
+
+CalculatorImpl.java--->
+
+package server;
+import org.omg.CORBA.ORB;
+import calculator_module.CalculatorPOA;
+
+public class CalculatorImpl extends CalculatorPOA{
+    private ORB orb;
+    public void setORB(ORB orb_val){
+        orb=orb_val;
+    }
+
+    @Override
+    public int add(int a,int b){
+        return a+b;
+    }
+
+    @Override
+    public int subtract(int a,int b){
+        return a-b;
+    }
+
+    @Override
+    public int multiply(int a,int b){
+        return a*b;
+    }
+
+    @Override
+    public int divide(int a,int b){
+        return a/b;
+    }
+
+    @Override
+    public void shutdown(){
+        orb.shutdown(false);
+    }
+}
